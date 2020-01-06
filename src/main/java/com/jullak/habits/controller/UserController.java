@@ -15,12 +15,12 @@ public class UserController {
     UserRepository userRepository;
 
     @RequestMapping(value = "/registration", method=RequestMethod.POST, produces = "application/json")
-    public String registrateUser(@RequestParam String nickname, String password) {
-        Optional<User> isExist = userRepository.findByNickname(nickname);
+    public String registrateUser(@RequestParam User login) {
+        Optional<User> isExist = userRepository.findByNickname(login.getNickname());
         if (isExist.isPresent()) {
             return "AlreadyExist";
         }
-        userRepository.save(new User(nickname, password));
+        userRepository.save(new User(login.getNickname(), login.getPassword()));
         return "I do something)";
     }
 
