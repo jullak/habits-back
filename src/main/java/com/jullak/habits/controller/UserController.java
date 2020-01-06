@@ -15,7 +15,7 @@ public class UserController {
     UserRepository userRepository;
 
     @RequestMapping(value = "/registration", method=RequestMethod.POST, produces = "application/json")
-    public String registrateUser(@RequestParam User login) {
+    public String registrateUser(@RequestBody User login) {
         Optional<User> isExist = userRepository.findByNickname(login.getNickname());
         if (isExist.isPresent()) {
             return "AlreadyExist";
