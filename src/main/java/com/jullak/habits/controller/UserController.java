@@ -14,7 +14,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @RequestMapping(value = "/registration", method=RequestMethod.POST)
+    @RequestMapping(value = "/registration", method=RequestMethod.POST, produces = "application/json")
     public String registrateUser(@RequestParam String nickname, String password) {
         Optional<User> isExist = userRepository.findByNickname(nickname);
         if (isExist.isPresent()) {
