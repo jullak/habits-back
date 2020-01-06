@@ -21,8 +21,8 @@ public class UserController {
         //if (isExist.isPresent()) {
         return "AlreadyExist";
         //}
-        userRepository.save(new User((String) body.get("nickname"), (String) body.get("password")));
-        return "I do something)";
+        //userRepository.save(new User((String) body.get("nickname"), (String) body.get("password")));
+        //return "I do something)";
     }
 
 }
