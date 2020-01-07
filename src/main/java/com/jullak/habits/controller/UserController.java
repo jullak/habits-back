@@ -18,6 +18,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @CrossOrigin
     @RequestMapping(value = "/registration", method=RequestMethod.POST, produces = "application/json")
     public ResponseEntity<String> registrateUser(@RequestParam String nickname, @RequestParam String password) {
         JSONObject registerResult = new JSONObject();
