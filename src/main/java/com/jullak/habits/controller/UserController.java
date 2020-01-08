@@ -1,57 +1,59 @@
 package com.jullak.habits.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.jullak.habits.model.User;
 import com.jullak.habits.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.json.JSONObject;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "user")
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
-    @CrossOrigin
-    @RequestMapping(value = "/registration", method=RequestMethod.POST, produces = "application/json")
+    @PostMapping(value = "/registration", produces = "application/json")
     public ResponseEntity<String> registrateUser(@RequestParam String nickname, @RequestParam String password) {
-        JSONObject registerResult = new JSONObject();
-
+        Gson gson = new Gson();
+        JsonObject result = new JsonObject();
         try {
-            Optional<User> isExist = userRepository.findByNickname(nickname);
-            if (isExist.isPresent()) {
-                registerResult.put("registerResult", "exists");
+            boolean isExist = userRepository.existsByNickname(nickname);
+            if (isExist) {
+                result.addProperty("registrationResult", "exists");
             } else {
-                userRepository.save(new User(nickname, password));
-                registerResult.put("registerResult", "success");
+                User user = userRepository.save(new User(nickname, password));
+                result = gson.toJsonTree(user).getAsJsonObject();
+                result.addProperty("registrationResult", "success");
             }
         } catch (Exception e) {
-            registerResult.put("registerResult", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(registerResult.toString());
+            result.addProperty("registrationResult", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.toString());
         }
-        return ResponseEntity.ok().body(registerResult.toString());
+        return ResponseEntity.ok().body(result.toString());
     }
 
-    @RequestMapping(value = "/login", method=RequestMethod.POST, produces = "application/json")
+    @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<String> loginUser(@RequestParam String nickname, @RequestParam String password) {
-        JSONObject result = new JSONObject();
+        Gson gson = new Gson();
+        JsonObject result = new JsonObject();
 
         try {
             Optional<User> getUser = userRepository.findByNicknameAndPassword(nickname, password);
             if (getUser.isPresent()) {
-                //some session logic
-                result.put("loginResult", "success");
+                result = gson.toJsonTree(getUser.get()).getAsJsonObject();
+                result.addProperty("loginResult", "success");
             } else {
-                result.put("loginResult", "not found");
+                result.addProperty("loginResult", "not found");
             }
         } catch (Exception e) {
-            result.put("loginResult", e.getMessage());
+            result.addProperty("loginResult", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.toString());
         }
         return ResponseEntity.ok().body(result.toString());
