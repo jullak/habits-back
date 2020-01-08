@@ -23,7 +23,7 @@ public class SkillController {
     SkillService skillService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createSkill(@RequestParam String name, @RequestParam(required = false) Optional<Long> maxPoint,
+    public ResponseEntity<String> createSkill(@RequestParam String name, @RequestParam(value = "maxPoint", required = false) Optional<Long> maxPoint,
                                               @RequestParam long userId) {
         Gson gson = new Gson();
         JsonObject result = new JsonObject();
@@ -52,10 +52,10 @@ public class SkillController {
         try {
             if (done.isPresent()) {
                 List<Skill> skills = skillRepository.findByUserAndDone(userId, done.get());
-                result = gson.toJsonTree(skills).getAsJsonObject();
+                result.addProperty("skills", gson.toJson(skills));
             } else {
                 List<Skill> skills = skillRepository.findByUser(userId);
-                result = gson.toJsonTree(skills).getAsJsonObject();
+                result.addProperty("skills", gson.toJson(skills));
             }
         } catch (Exception e) {
             result.addProperty("error", e.getMessage());
