@@ -23,7 +23,7 @@ public class SkillController {
     SkillService skillService;
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createSkill(@RequestParam String name, @RequestParam(value = "maxPoint", required = false) Optional<Long> maxPoint,
+    public ResponseEntity<String> createSkill(@RequestParam String name, @RequestParam(required = false) Optional<Long> maxPoint,
                                               @RequestParam long userId) {
         Gson gson = new Gson();
         JsonObject result = new JsonObject();

@@ -100,10 +100,10 @@ public class GoalController {
         try {
             if (done.isPresent()) {
                 List<Goal> goals = goalRepository.findBySkillAndDone(skillId, done.get());
-                result = gson.toJsonTree(goals).getAsJsonObject();
+                result.addProperty("goals", gson.toJson(goals));
             } else {
                 List<Goal> goals = goalRepository.findBySkill(skillId);
-                result = gson.toJsonTree(goals).getAsJsonObject();
+                result.addProperty("goals", gson.toJson(goals));
             }
         } catch (Exception e) {
             result.addProperty("error", e.getMessage());
@@ -142,7 +142,7 @@ public class GoalController {
         try {
             Optional<List<Goal>> goals = goalService.getRealToday();
             if (goals.isPresent()) {
-                result = gson.toJsonTree(goals.get()).getAsJsonObject();
+                result.addProperty("goals", gson.toJson(goals.get()));
                 result.addProperty("value", "exists");
             } else {
                 result.addProperty("value", "none");
