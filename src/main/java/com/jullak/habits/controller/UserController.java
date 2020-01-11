@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.jullak.habits.model.User;
 import com.jullak.habits.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,8 +41,18 @@ public class UserController {
     }
 
     @PostMapping(value = "/login", produces = "application/json")
-    public ResponseEntity<String> loginUser(@RequestParam String nickname, @RequestParam String password) {
-        Gson gson = new Gson();
+    public ResponseEntity<String> loginUser(@CookieValue(required = false) Optional<String> auth, @RequestParam String nickname, @RequestParam String password) {
+
+        if (auth.isPresent()) {
+            return ResponseEntity.ok().body("yey!");
+        }
+        else {
+            HttpHeaders respHead = new HttpHeaders();
+            respHead.set("Set-Cookie", "auth=lol");
+            return ResponseEntity.ok().headers(respHead).body("aa");
+        }
+
+        /*Gson gson = new Gson();
         JsonObject result = new JsonObject();
 
         try {
@@ -56,6 +67,6 @@ public class UserController {
             result.addProperty("loginResult", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.toString());
         }
-        return ResponseEntity.ok().body(result.toString());
+        return ResponseEntity.ok().body(result.toString());*/
     }
 }
