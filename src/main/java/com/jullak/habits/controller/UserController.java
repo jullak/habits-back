@@ -43,16 +43,16 @@ public class UserController {
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<String> loginUser(@CookieValue(required = false) Optional<String> auth, @RequestParam String nickname, @RequestParam String password) {
 
-        if (auth.isPresent()) {
+        /*if (auth.isPresent()) {
             return ResponseEntity.ok().body("yey!");
         }
         else {
             HttpHeaders respHead = new HttpHeaders();
             respHead.set("Set-Cookie", "auth=lol");
             return ResponseEntity.ok().headers(respHead).body("aa");
-        }
+        }*/
 
-        /*Gson gson = new Gson();
+        Gson gson = new Gson();
         JsonObject result = new JsonObject();
 
         try {
@@ -67,6 +67,6 @@ public class UserController {
             result.addProperty("loginResult", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result.toString());
         }
-        return ResponseEntity.ok().body(result.toString());*/
+        return ResponseEntity.ok().body(result.toString());
     }
 }
