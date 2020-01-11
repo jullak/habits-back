@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
 @RequestMapping(value = "user")
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
+    @CrossOrigin
     @PostMapping(value = "/registration", produces = "application/json")
     public ResponseEntity<String> registrateUser(@RequestParam String nickname, @RequestParam String password) {
         Gson gson = new Gson();
@@ -40,6 +40,7 @@ public class UserController {
         return ResponseEntity.ok().body(result.toString());
     }
 
+    @CrossOrigin
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<String> loginUser(@CookieValue(required = false) Optional<String> auth, @RequestParam String nickname, @RequestParam String password) {
 
