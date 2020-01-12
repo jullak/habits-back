@@ -52,10 +52,10 @@ public class SkillController {
         try {
             if (done.isPresent()) {
                 List<Skill> skills = skillRepository.findByUserAndDone(userId, done.get());
-                result.addProperty("skills", gson.toJson(skills));
+                result.add("skills", gson.toJsonTree(skills));
             } else {
                 List<Skill> skills = skillRepository.findByUser(userId);
-                result.addProperty("skills", gson.toJson(skills));
+                result.add("skills", gson.toJsonTree(skills));
             }
         } catch (Exception e) {
             result.addProperty("error", e.getMessage());

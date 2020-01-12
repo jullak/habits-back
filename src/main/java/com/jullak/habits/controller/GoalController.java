@@ -98,12 +98,14 @@ public class GoalController {
         JsonObject result = new JsonObject();
 
         try {
+            Optional<List<Goal>> updated = goalService.getRealToday(); //strange way to update today...
+
             if (done.isPresent()) {
                 List<Goal> goals = goalRepository.findBySkillAndDone(skillId, done.get());
-                result.addProperty("goals", gson.toJson(goals));
+                result.add("goals", gson.toJsonTree(goals));
             } else {
                 List<Goal> goals = goalRepository.findBySkill(skillId);
-                result.addProperty("goals", gson.toJson(goals));
+                result.add("goals", gson.toJsonTree(goals));
             }
         } catch (Exception e) {
             result.addProperty("error", e.getMessage());
@@ -142,7 +144,7 @@ public class GoalController {
         try {
             Optional<List<Goal>> goals = goalService.getRealToday();
             if (goals.isPresent()) {
-                result.addProperty("goals", gson.toJson(goals.get()));
+                result.add("goals", gson.toJsonTree(goals.get()));
                 result.addProperty("value", "exists");
             } else {
                 result.addProperty("value", "none");
