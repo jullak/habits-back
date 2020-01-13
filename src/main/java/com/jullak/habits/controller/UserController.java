@@ -43,16 +43,6 @@ public class UserController {
     @CrossOrigin
     @PostMapping(value = "/login", produces = "application/json")
     public ResponseEntity<String> loginUser(@CookieValue(required = false) Optional<String> auth, @RequestParam String nickname, @RequestParam String password) {
-
-        /*if (auth.isPresent()) {
-            return ResponseEntity.ok().body("yey!");
-        }
-        else {
-            HttpHeaders respHead = new HttpHeaders();
-            respHead.set("Set-Cookie", "auth=lol");
-            return ResponseEntity.ok().headers(respHead).body("aa");
-        }*/
-
         Gson gson = new Gson();
         JsonObject result = new JsonObject();
 
