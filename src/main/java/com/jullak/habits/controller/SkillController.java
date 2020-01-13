@@ -24,7 +24,7 @@ public class SkillController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<String> createSkill(@RequestParam String name, @RequestParam(required = false) Optional<Long> maxPoint,
-                                              @RequestParam long userId) {
+                                              @RequestParam Long userId) {
         Gson gson = new Gson();
         JsonObject result = new JsonObject();
 
@@ -45,7 +45,7 @@ public class SkillController {
     }
 
     @GetMapping(value = "/get")
-    public ResponseEntity<String> getAllSkills(@RequestParam long userId, @RequestParam(required = false) Optional<Boolean> done) {
+    public ResponseEntity<String> getAllSkills(@RequestParam Long userId, @RequestParam(required = false) Optional<Boolean> done) {
         Gson gson = new Gson();
         JsonObject result = new JsonObject();
 
@@ -66,7 +66,7 @@ public class SkillController {
     }
 
     @GetMapping(value = "/get/{skillId}")
-    public ResponseEntity<String> getSkillsById(@PathVariable("skillId") long skillId) {
+    public ResponseEntity<String> getSkillsById(@PathVariable("skillId") Long skillId) {
         Gson gson = new Gson();
         JsonObject result = new JsonObject();
 
@@ -87,7 +87,7 @@ public class SkillController {
     }
 
     @PostMapping(value = "/edit/{skillId}")
-    public ResponseEntity<String> editSkill(@PathVariable("skillId") long skillId,
+    public ResponseEntity<String> editSkill(@PathVariable("skillId") Long skillId,
                                             @RequestParam(required = false) Optional<String> name,
                                             @RequestParam(required = false) Optional<Long> maxPoint) {
         Gson gson = new Gson();
